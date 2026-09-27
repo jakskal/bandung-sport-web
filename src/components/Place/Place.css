@@ -1,6 +1,9 @@
 .tier-mahal {
   color: var(--place-tier-expensive);
 }
+.tier-sedang {
+  color: var(--place-tier-medium);
+}
 .tier-murah {
   color: var(--place-tier-cheap);
 }
