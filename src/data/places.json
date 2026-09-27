@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Gym Bandung",
+    "area": "Dago",
+    "category": "Fitness",
+    "priceMin": 45000,
+    "priceMax": 60000,
+    "tier": "Mahal"
+  },
+  {
+    "id": 2,
+    "name": "Gym Cimahi",
+    "area": "Cimahi",
+    "category": "Fitness",
+    "priceMin": 0,
+    "priceMax": 0,
+    "tier": "Gratis"
+  },
+  {
+    "id": 3,
+    "name": "Gor Setiabudi",
+    "area": "Setiabudi",
+    "category": "Futsal",
+    "priceMin": 30000,
+    "priceMax": 30000,
+    "tier": "Mahal"
+  },
+  {
+    "id": 4,
+    "name": "Gym Lembang",
+    "area": "Lembang",
+    "category": "Fitness",
+    "priceMin": 75000,
+    "priceMax": 100000,
+    "tier": "Murah"
+  },
+  {
+    "id": 5,
+    "name": "Gor Arcamanik",
+    "area": "Arcamanik",
+    "category": "Futsal",
+    "priceMin": 0,
+    "priceMax": 0,
+    "tier": "Gratis"
+  },
+  {
+    "id": 6,
+    "name": "Gor Cibiru",
+    "area": "Cibiru",
+    "category": "Futsal",
+    "priceMin": 20000,
+    "priceMax": 25000,
+    "tier": "Murah"
+  },
+  {
+    "id": 7,
+    "name": "Kolam Renang Arcamanik",
+    "area": "Arcamanik",
+    "category": "Swimming Pool",
+    "priceMin": 20000,
+    "priceMax": 20000,
+    "tier": "Murah"
+  },
+  {
+    "id": 8,
+    "name": "Kolam Renang Cibiru",
+    "area": "Cibiru",
+    "category": "Swimming Pool",
+    "priceMin": 0,
+    "priceMax": 0,
+    "tier": "Gratis"
+  },
+  {
+    "id": 9,
+    "name": "Top Area PVJ",
+    "area": "Setiabudi",
+    "category": "Padel",
+    "priceMin": 450000,
+    "priceMax": 550000,
+    "tier": "Murah"
+  },
+  {
+    "id": 10,
+    "name": "LOW Area Sumedang",
+    "area": "Sumedang",
+    "category": "Padel",
+    "priceMin": 0,
+    "priceMax": 0,
+    "tier": "Gratis"
+  }
+]

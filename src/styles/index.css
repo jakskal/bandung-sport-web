@@ -1,0 +1,11 @@
+:root {
+  --place-tier-expensive: #ff4d4f;
+  --place-tier-cheap: #faad14;
+  --place-tier-free: #52c41a;
+  --border: #e5e4e7;
+}
+
+.place-list {
+  padding: 5px;
+  margin: 0;
+}

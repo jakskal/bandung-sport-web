@@ -1,0 +1,18 @@
+.tier-mahal {
+  color: var(--place-tier-expensive);
+}
+.tier-murah {
+  color: var(--place-tier-cheap);
+}
+.tier-gratis {
+  color: var(--place-tier-free);
+}
+
+.place-card {
+  list-style-type: none;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
