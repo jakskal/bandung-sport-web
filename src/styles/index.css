@@ -4,6 +4,7 @@
   --place-tier-cheap: #faad14;
   --place-tier-free: #52c41a;
   --border: #e5e4e7;
+  --button-bg: #f0f0f0;
 }
 
 .place-list {
@@ -18,4 +19,24 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 0 16px;
+}
+
+.category-filter-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+.category-filter-item {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.category-filter-active {
+  background-color: var(--button-bg);
 }
