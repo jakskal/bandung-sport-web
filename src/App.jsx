@@ -18,36 +18,73 @@ function App() {
     ),
   ];
 
+  const [activeArea, setActiveArea] = useState(null);
+  const areas = [...new Set(places.map((place) => place.area))];
+
   const visiblePlaces = places.filter(
     (place) =>
       (!activeCategory || place.category === activeCategory) &&
       (!activeTier ||
         place.tier === activeTier ||
-        (activeTier === 'Belum dikurasi' && place.tier == null)),
+        (activeTier === 'Belum dikurasi' && place.tier == null)) &&
+      (!activeArea || place.area === activeArea),
   );
   const count = visiblePlaces.length;
+  const hasActiveFilters = activeCategory || activeTier || activeArea;
   return (
     <>
       <div className="container">
-        <div className="header">
-          <h1>Bandung Sport</h1>
-          <p>{count} tempat ditemukan</p>
+        <div className="filter-container">
+          <div className="header">
+            <h1>Bandung Sport</h1>
+            <p>{count} tempat ditemukan</p>
+          </div>
+          <FilterChips
+            items={categories}
+            activeItem={activeCategory}
+            onItemClick={setActiveCategory}
+          />
+          <FilterChips
+            items={tiers}
+            activeItem={activeTier}
+            onItemClick={setActiveTier}
+          />
+          <select
+            className="area-select"
+            value={activeArea || ''}
+            onChange={(e) => setActiveArea(e.target.value || null)}
+          >
+            <option value="">Semua Area</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
         </div>
-        <FilterChips
-          items={categories}
-          activeItem={activeCategory}
-          onItemClick={setActiveCategory}
-        />
-        <FilterChips
-          items={tiers}
-          activeItem={activeTier}
-          onItemClick={setActiveTier}
-        />
-        <ul className="place-list">
-          {visiblePlaces.map((place) => (
-            <Place key={place.id} place={place} />
-          ))}
-        </ul>
+        {visiblePlaces.length === 0 ? (
+          <div className="no-places">
+            <p>Tidak ada tempat yang ditemukan.</p>
+            {hasActiveFilters && (
+              <button
+                className="reset-button"
+                onClick={() => {
+                  setActiveCategory(null);
+                  setActiveTier(null);
+                  setActiveArea(null);
+                }}
+              >
+                Reset filter
+              </button>
+            )}
+          </div>
+        ) : (
+          <ul className="place-list">
+            {visiblePlaces.map((place) => (
+              <Place key={place.id} place={place} />
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );
