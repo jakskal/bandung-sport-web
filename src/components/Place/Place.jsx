@@ -1,7 +1,7 @@
 import './Place.css';
-function Place({ place }) {
+function Place({ place, onClick }) {
   return (
-    <li className="place-card">
+    <li className="place-card" onClick={onClick}>
       <h2>{place.name}</h2>
       <p>{place.area}</p>
       <p>{place.category}</p>
