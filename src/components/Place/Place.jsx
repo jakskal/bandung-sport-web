@@ -1,7 +1,7 @@
 import './Place.css';
-function Place({ place, onClick }) {
+function Place({ place }) {
   return (
-    <li className="place-card" onClick={onClick}>
+    <>
       <h2>{place.name}</h2>
       <p>{place.area}</p>
       <p>{place.category}</p>
@@ -19,21 +19,10 @@ function Place({ place, onClick }) {
           {place.priceUnit ? `/ ${place.priceUnit}` : '  '}
         </p>
       )}
-      <p>Whatsapp : {place.whatsapp ? place.whatsapp : 'N/A'}</p>
-      <p>
-        Instagram :{' '}
-        {place.instagram ? (
-          <a href={place.instagram} target="_blank" rel="noopener noreferrer">
-            Link
-          </a>
-        ) : (
-          'N/A'
-        )}
-      </p>
       <p className={`tier-${place.tier ? place.tier.toLowerCase() : ''}`}>
         Tier: {place.tier ? place.tier : 'N/A'}
       </p>
-    </li>
+    </>
   );
 }
 

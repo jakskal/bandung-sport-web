@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 :root {
   --place-tier-expensive: #ff4d4f;
   --place-tier-medium: #fa8c16;
