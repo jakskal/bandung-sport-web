@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     if (navigationType === 'POP') return;
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [location.pathname, navigationType]);
   return (
     <Routes>
       <Route path="/" element={<ListPage />} />

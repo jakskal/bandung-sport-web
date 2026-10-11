@@ -1,6 +1,6 @@
 import Place from '../components/Place/Place';
 import places from '../data/places';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import FilterChips from '../components/FilterChips/FilterChips';
 import { Link, useSearchParams } from 'react-router';
 
