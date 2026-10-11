@@ -1,16 +1,28 @@
-import { useParams, Link } from 'react-router';
+import { useParams, Link, useNavigate } from 'react-router';
 import places from '../data/places';
 import '../styles/place-detail.css';
+import { useEffect } from 'react';
 
 function PlaceDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const place = places.find((p) => p.id === parseInt(id));
+
+  useEffect(() => {
+    if (place) {
+      document.title = `${place.name} — Bandung Sport`;
+    } else {
+      document.title = 'Tempat tidak ditemukan — Bandung Sport';
+    }
+  }, [place]);
 
   if (!place) {
     return (
       <div>
         <h2>Tempat tidak ditemukan</h2>
-        <Link to="/">Kembali</Link>
+        <Link className="place-detail-back-button" to="/">
+          Kembali
+        </Link>
       </div>
     );
   }
@@ -18,7 +30,9 @@ function PlaceDetail() {
   const hasContacts = place.whatsapp || place.instagram || place.website;
   return (
     <div className="container">
-      <Link to="/">Kembali</Link>
+      <button className="place-detail-back-button" onClick={() => navigate(-1)}>
+        Kembali
+      </button>
       <h1>{place.name}</h1>
       <p>
         {place.category} - {place.area}

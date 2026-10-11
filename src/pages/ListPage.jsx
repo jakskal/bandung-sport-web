@@ -1,6 +1,6 @@
 import Place from '../components/Place/Place';
 import places from '../data/places';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterChips from '../components/FilterChips/FilterChips';
 import { Link } from 'react-router';
 
@@ -33,6 +33,11 @@ function ListPage() {
   );
   const count = visiblePlaces.length;
   const hasActiveFilters = activeCategory || activeTier || activeArea;
+
+  useEffect(() => {
+    // Reset filters when the component mounts
+    document.title = 'Bandung Sport — Direktori olahraga Bandung';
+  }, []);
 
   return (
     <>
