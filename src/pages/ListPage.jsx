@@ -2,16 +2,17 @@ import Place from '../components/Place/Place';
 import places from '../data/places';
 import { useState, useEffect } from 'react';
 import FilterChips from '../components/FilterChips/FilterChips';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 
 function ListPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   // State to keep track of the currently active category filter
-  const [activeCategory, setActiveCategory] = useState(null);
+  const activeCategory = searchParams.get('kategori');
   const categories = [...new Set(places.map((place) => place.category))];
 
   // state to keep track of the currently active tier filter
 
-  const [activeTier, setActiveTier] = useState(null);
+  const activeTier = searchParams.get('tier');
   const tiers = [
     ...new Set(
       places.map((place) =>
@@ -20,9 +21,22 @@ function ListPage() {
     ),
   ];
 
-  const [activeArea, setActiveArea] = useState(null);
+  const activeArea = searchParams.get('area');
   const areas = [...new Set(places.map((place) => place.area))];
 
+  const setParam = (key, value) => {
+    const params = Object.fromEntries(searchParams.entries());
+    if (value) {
+      params[key] = value;
+    } else {
+      delete params[key];
+    }
+    setSearchParams(params);
+  };
+
+  const setActiveCategory = (value) => setParam('kategori', value);
+  const setActiveTier = (value) => setParam('tier', value);
+  const setActiveArea = (value) => setParam('area', value);
   const visiblePlaces = places.filter(
     (place) =>
       (!activeCategory || place.category === activeCategory) &&
