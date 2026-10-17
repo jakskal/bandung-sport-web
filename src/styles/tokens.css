@@ -1,0 +1,32 @@
+/*
+  Design tokens — satu-satunya tempat nilai warna & shadow literal ditulis.
+  Komponen hanya boleh memakai var(--token); tidak menulis hex/rgba sendiri.
+  Diimpor sebelum index.css (lihat main.jsx).
+*/
+:root {
+  /* Tier (diturunkan dari harga, bukan disimpan di data) */
+  --place-tier-free: #52c41a;
+  --place-tier-cheap: #faad14;
+  --place-tier-medium: #fa8c16;
+  --place-tier-expensive: #ff4d4f;
+
+  /* Garis */
+  --border: #e5e4e7;
+
+  /* Permukaan */
+  --surface-base: #ffffff;
+  --surface-card: #f9f9f9;
+  --surface-hover: #f0f0f0;
+  --surface-subtle: #f7f7f7;
+
+  /* Teks */
+  --text-muted: #888;
+  --text-on-action: #ffffff;
+
+  /* Aksi */
+  --button-bg: #b2dfae;
+  --action-primary: #007bff;
+
+  /* Elevasi */
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
