@@ -2,11 +2,13 @@ import { useParams, Link, useNavigate } from 'react-router';
 import places from '../data/places';
 import '../styles/place-detail.css';
 import { useEffect } from 'react';
+import formatPrice from '../lib/formatPrice';
 
 function PlaceDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const place = places.find((p) => p.id === parseInt(id));
+
 
   useEffect(() => {
     if (place) {
@@ -27,6 +29,15 @@ function PlaceDetail() {
     );
   }
 
+    // temporary until v2 (s5)
+  const priceVisibility = place?.priceMin == null ? 'unknown' : 'public';
+  const priceFormatted = formatPrice({
+    priceMin: place?.priceMin,
+    priceMax: place?.priceMax,
+    priceUnit: place?.priceUnit,
+    priceVisibility: priceVisibility,
+  });
+  
   const hasContacts = place.whatsapp || place.instagram || place.website;
   return (
     <div className="container">
@@ -38,20 +49,9 @@ function PlaceDetail() {
         {place.category} - {place.area}
       </p>
 
-      {place.priceMin == null ? (
-        <p>Hubungi untuk harga</p>
-      ) : place.priceMax == null || place.priceMin === place.priceMax ? (
-        <p className="place-detail-price">
-          Harga: Rp {place.priceMin.toLocaleString('id-ID')}{' '}
-          {place.priceUnit ? `/ ${place.priceUnit}` : '  '}
-        </p>
-      ) : (
-        <p className="place-detail-price">
-          Harga: Rp {place.priceMin.toLocaleString('id-ID')} - Rp{' '}
-          {place.priceMax.toLocaleString('id-ID')}{' '}
-          {place.priceUnit ? `/ ${place.priceUnit}` : '  '}
-        </p>
-      )}
+      <p className="place-detail-price">
+        {priceFormatted}
+      </p>
 
       <p
         className={`tier-${place.tier ? place.tier.toLowerCase() : ''} place-detail-tier`}

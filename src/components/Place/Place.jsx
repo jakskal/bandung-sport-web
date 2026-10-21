@@ -1,24 +1,20 @@
 import './Place.css';
+import formatPrice from '../../lib/formatPrice';
 function Place({ place }) {
+  // temporary until v2 (s5)
+  const priceVisibility = place.priceMin == null ? 'unknown' : 'public';
+  const priceFormatted = formatPrice({
+    priceMin: place?.priceMin,
+    priceMax: place?.priceMax,
+    priceUnit: place?.priceUnit,
+    priceVisibility: priceVisibility,
+  });
   return (
     <>
       <h2>{place.name}</h2>
       <p>{place.area}</p>
       <p>{place.category}</p>
-      {place.priceMin == null ? (
-        <p>Harga: N/A</p>
-      ) : place.priceMax == null || place.priceMin === place.priceMax ? (
-        <p>
-          Harga: Rp {place.priceMin.toLocaleString('id-ID')}{' '}
-          {place.priceUnit ? `/ ${place.priceUnit}` : '  '}
-        </p>
-      ) : (
-        <p>
-          Harga: Rp {place.priceMin.toLocaleString('id-ID')} - Rp{' '}
-          {place.priceMax.toLocaleString('id-ID')}{' '}
-          {place.priceUnit ? `/ ${place.priceUnit}` : '  '}
-        </p>
-      )}
+      <p>{priceFormatted}</p>
       <p className={`tier-${place.tier ? place.tier.toLowerCase() : ''}`}>
         Tier: {place.tier ? place.tier : 'N/A'}
       </p>
