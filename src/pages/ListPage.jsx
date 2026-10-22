@@ -1,10 +1,16 @@
 import Place from '../components/Place/Place';
 import places from '../data/places';
-import { useEffect } from 'react';
+import { useCallback,useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
 import FilterChips from '../components/FilterChips/FilterChips';
 import { Link, useSearchParams } from 'react-router';
+import { fetchVenues } from '../api/client';
 
 function ListPage() {
+  const fetcher = useCallback((signal) => fetchVenues(signal), []);
+  const { data, error, loading } = useFetch(fetcher);
+
+  const venues = data ?? [];
   const [searchParams, setSearchParams] = useSearchParams();
   // State to keep track of the currently active category filter
   const activeCategory = searchParams.get('kategori');
@@ -61,6 +67,11 @@ function ListPage() {
             <div className="header">
               <h1>Bandung Sport</h1>
               <p>{count} tempat ditemukan</p>
+              <p>
+                {loading && 'Memuat tempat...'}
+                {error && 'Gagal Memuat data tempat.'}
+                {!loading && !error &&  `${venues.length} tempat ditemukan.`}
+              </p>
             </div>
             <FilterChips
               items={categories}
