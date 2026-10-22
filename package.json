@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run validate && vite build",
+    "validate": "node scripts/validate-data.mjs",
     "lint": "oxlint",
     "format": "prettier --write src",
     "preview": "vite preview"
