@@ -1,22 +1,17 @@
 import './Place.css';
 import formatPrice from '../../lib/formatPrice';
-function Place({ place }) {
-  // temporary until v2 (s5)
-  const priceVisibility = place.priceMin == null ? 'unknown' : 'public';
-  const priceFormatted = formatPrice({
-    priceMin: place?.priceMin,
-    priceMax: place?.priceMax,
-    priceUnit: place?.priceUnit,
-    priceVisibility: priceVisibility,
-  });
+function Place({ venue }) {
+  const priceFormatted = venue.priceFrom ? formatPrice(venue.priceFrom) : 
+  formatPrice({priceVisibility: 'unknown'});
+  const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
   return (
     <>
-      <h2>{place.name}</h2>
-      <p>{place.area}</p>
-      <p>{place.category}</p>
+      <h2>{venue.name}</h2>
+      <p>{venue.area}</p>
+      <p className="place-sports">{venue.sports.join(', ')}</p>
       <p>{priceFormatted}</p>
-      <p className={`tier-${place.tier ? place.tier.toLowerCase() : ''}`}>
-        Tier: {place.tier ? place.tier : 'N/A'}
+      <p className={tierClass}>
+        Tier: {venue.tier ? venue.tier : 'Belum dicek'}
       </p>
     </>
   );

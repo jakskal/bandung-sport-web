@@ -1,52 +1,62 @@
+import { useEffect , useCallback} from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
-import places from '../data/places';
-import '../styles/place-detail.css';
-import { useEffect } from 'react';
+import useFetch from '../hooks/useFetch';
+import { fetchVenue } from '../api/client';
 import formatPrice from '../lib/formatPrice';
+import '../styles/place-detail.css';
 
 function PlaceDetail() {
-  const { id } = useParams();
+  const { venueId } = useParams();
   const navigate = useNavigate();
-  const place = places.find((p) => p.id === parseInt(id));
+  const fetcher = useCallback((signal) => fetchVenue(venueId, signal), [venueId]);
+  const { data: venue, error, loading, retry } = useFetch(fetcher);
 
 
   useEffect(() => {
-    if (place) {
-      document.title = `${place.name} — Bandung Sport`;
-    } else {
-      document.title = 'Tempat tidak ditemukan — Bandung Sport';
-    }
-  }, [place]);
+      document.title = venue ?  `${venue.name} — Bandung Sport`: 'Bandung Sport — Direktori olahraga Bandung';
+  }, [venue]);
 
-  if (!place) {
+  if (loading) {
+    return <div className="container">Memuat...</div>;
+  }
+
+  if (error?.status === 404){
     return (
-      <div>
+      <div className="container">
         <h2>Tempat tidak ditemukan</h2>
         <Link className="place-detail-back-button" to="/">
           Kembali
         </Link>
       </div>
+    )
+  }
+  if (error) {
+    return (
+      <div className="container fetch-error">
+        <p>Gagal memuat tempat.</p>
+        <p className="fetch-error-details">{error.message}</p>
+        <button className="reset-button" onClick={retry}>
+          Coba lagi
+        </button>
+      </div>
     );
   }
 
+  if (!venue) return null;
+
     // temporary until v2 (s5)
-  const priceVisibility = place?.priceMin == null ? 'unknown' : 'public';
-  const priceFormatted = formatPrice({
-    priceMin: place?.priceMin,
-    priceMax: place?.priceMax,
-    priceUnit: place?.priceUnit,
-    priceVisibility: priceVisibility,
-  });
+  const priceFormatted = venue.priceFrom ? formatPrice(venue.priceFrom) : formatPrice({priceVisibility: 'unknown'});
+  const tierClass=venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
   
-  const hasContacts = place.whatsapp || place.instagram || place.website;
+  const hasContacts = venue.whatsapp || venue.instagram || venue.website;
   return (
     <div className="container">
       <button className="place-detail-back-button" onClick={() => navigate(-1)}>
         Kembali
       </button>
-      <h1>{place.name}</h1>
-      <p>
-        {place.category} - {place.area}
+      <h1>{venue.name}</h1>
+      <p className="place-sports">
+        {venue.sports.join(', ')} — {venue.area}
       </p>
 
       <p className="place-detail-price">
@@ -54,17 +64,18 @@ function PlaceDetail() {
       </p>
 
       <p
-        className={`tier-${place.tier ? place.tier.toLowerCase() : ''} place-detail-tier`}
+        className={`place-detail-tier ${tierClass}`}
       >
-        Tier: {place.tier ? place.tier : 'N/A'}
+        Tier: {venue.tier ??'Belum dicek'}
       </p>
+      {venue.address && <p>{venue.address}</p>}
       {hasContacts && (
         <div className="place-detail-contacts">
           <h3>Kontak</h3>
-          {place.whatsapp && (
+          {venue.whatsapp && (
             <p>
               <a
-                href={`https://wa.me/${place.whatsapp.replace(/\D/g, '')}`}
+                href={`https://wa.me/${venue.whatsapp.replace(/\D/g, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -72,10 +83,10 @@ function PlaceDetail() {
               </a>
             </p>
           )}
-          {place.instagram && (
+          {venue.instagram && (
             <p>
               <a
-                href={place.instagram}
+                href={venue.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -83,9 +94,9 @@ function PlaceDetail() {
               </a>
             </p>
           )}
-          {place.website && (
+          {venue.website && (
             <p>
-              <a href={place.website} target="_blank" rel="noopener noreferrer">
+              <a href={venue.website} target="_blank" rel="noopener noreferrer">
                 Website
               </a>
             </p>

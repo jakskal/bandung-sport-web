@@ -14,7 +14,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<ListPage />} />
-      <Route path="/place/:id" element={<PlaceDetail />} />
+      <Route path="/tempat/:venueId" element={<PlaceDetail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

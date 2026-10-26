@@ -43,3 +43,42 @@
   color: var(--text-muted);
 }
 
+.skeleton-card {
+  height: 132px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-card) 25%,
+    var(--surface-subtle) 37%,
+    var(--surface-card) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.fetch-error {
+  text-align: center;
+  margin-top: 20px;
+  padding: 24px 10px;
+  color: var(--text-error);
+}
+
+.fetch-error-detail {
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card {
+    animation: none;
+  }
+}

@@ -1,5 +1,4 @@
 import Place from '../components/Place/Place';
-import places from '../data/places';
 import { useCallback,useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import FilterChips from '../components/FilterChips/FilterChips';
@@ -8,27 +7,27 @@ import { fetchVenues } from '../api/client';
 
 function ListPage() {
   const fetcher = useCallback((signal) => fetchVenues(signal), []);
-  const { data, error, loading } = useFetch(fetcher);
+  const { data, error, loading , retry} = useFetch(fetcher);
 
   const venues = data ?? [];
   const [searchParams, setSearchParams] = useSearchParams();
   // State to keep track of the currently active category filter
-  const activeCategory = searchParams.get('kategori');
-  const categories = [...new Set(places.map((place) => place.category))];
+  const activeSport = searchParams.get('olahraga');
+  const sports = [...new Set(venues.flatMap((venue) => venue.sports))].sort();
 
   // state to keep track of the currently active tier filter
 
   const activeTier = searchParams.get('tier');
   const tiers = [
     ...new Set(
-      places.map((place) =>
-        place.tier != null ? place.tier : 'Belum dikurasi',
+      venues.map((place) =>
+        place.tier != null ? place.tier : 'Belum dicek',
       ),
     ),
   ];
 
   const activeArea = searchParams.get('area');
-  const areas = [...new Set(places.map((place) => place.area))];
+  const areas = [...new Set(venues.map((place) => place.area))];
 
   const setParam = (key, value) => {
     const params = Object.fromEntries(searchParams.entries());
@@ -40,19 +39,18 @@ function ListPage() {
     setSearchParams(params);
   };
 
-  const setActiveCategory = (value) => setParam('kategori', value);
+  const setActiveSport = (value) => setParam('olahraga', value);
   const setActiveTier = (value) => setParam('tier', value);
   const setActiveArea = (value) => setParam('area', value);
-  const visiblePlaces = places.filter(
-    (place) =>
-      (!activeCategory || place.category === activeCategory) &&
+  const visibleVenues = venues.filter(
+    (venue) =>
+      (!activeSport || venue.sports.includes(activeSport)) &&
       (!activeTier ||
-        place.tier === activeTier ||
-        (activeTier === 'Belum dikurasi' && place.tier == null)) &&
-      (!activeArea || place.area === activeArea),
+        venue.tier === activeTier ||
+        (activeTier === 'Belum dicek' && venue.tier == null)) &&
+      (!activeArea || venue.area === activeArea),
   );
-  const count = visiblePlaces.length;
-  const hasActiveFilters = activeCategory || activeTier || activeArea;
+  const hasActiveFilters = activeSport || activeTier || activeArea;
 
   useEffect(() => {
     // Reset filters when the component mounts
@@ -66,17 +64,10 @@ function ListPage() {
           <div className="filter-container">
             <div className="header">
               <h1>Bandung Sport</h1>
-              <p>{count} tempat ditemukan</p>
-              <p>
-                {loading && 'Memuat tempat...'}
-                {error && 'Gagal Memuat data tempat.'}
-                {!loading && !error &&  `${venues.length} tempat ditemukan.`}
-              </p>
-            </div>
             <FilterChips
-              items={categories}
-              activeItem={activeCategory}
-              onItemClick={setActiveCategory}
+              items={sports}
+              activeItem={activeSport}
+              onItemClick={setActiveSport}
             />
             <FilterChips
               items={tiers}
@@ -95,15 +86,36 @@ function ListPage() {
                 </option>
               ))}
             </select>
+                <p>
+                {loading && 'Memuat tempat...'}
+                {!loading && !error &&  `${venues.length} tempat ditemukan.`}
+              </p>
+                  {loading && (
+                <ul className="place-list" aria-hidden="true">
+                  {
+                    Array.from({length: 6}, (_, index) => (
+                      <li key={index} className="skeleton-card" />
+                    ))
+                  }
+                  </ul>  
+                )}
+                {!loading && error && (
+                  <div className='fetch-error'>
+                  <p>Gagal Memuat data tempat.</p>
+                  <p className="fetch-error-detail">{error.message}</p>
+                  <button className="reset-button" onClick={retry}>Coba lagi</button>
+                  </div>
+                )}
+            </div>
           </div>
-          {visiblePlaces.length === 0 ? (
+          {!loading && !error && visibleVenues.length === 0 && (
             <div className="no-places">
               <p>Tidak ada tempat yang ditemukan.</p>
               {hasActiveFilters && (
                 <button
                   className="reset-button"
                   onClick={() => {
-                    setActiveCategory(null);
+                    setActiveSport(null);
                     setActiveTier(null);
                     setActiveArea(null);
                   }}
@@ -112,12 +124,14 @@ function ListPage() {
                 </button>
               )}
             </div>
-          ) : (
+          )}
+          
+          { !loading && !error && visibleVenues.length > 0 && (
             <ul className="place-list">
-              {visiblePlaces.map((place) => (
-                <li key={place.id}>
-                  <Link className="place-card" to={`/place/${place.id}`}>
-                    <Place place={place} />
+              {visibleVenues.map((venue) => (
+                <li key={venue.id}>
+                  <Link className="place-card" to={`/tempat/${venue.id}`}>
+                    <Place venue={venue} />
                   </Link>
                 </li>
               ))}
