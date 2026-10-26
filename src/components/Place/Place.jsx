@@ -1,8 +1,9 @@
 import './Place.css';
 import formatPrice from '../../lib/formatPrice';
 function Place({ venue }) {
-  const priceFormatted = venue.priceFrom ? formatPrice(venue.priceFrom) : 
-  formatPrice({priceVisibility: 'unknown'});
+  const priceFormatted = venue.priceFrom
+    ? formatPrice(venue.priceFrom)
+    : formatPrice({ priceVisibility: 'unknown' });
   const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
   return (
     <>

@@ -1,5 +1,5 @@
 import Place from '../components/Place/Place';
-import { useCallback,useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useFetch from '../hooks/useFetch';
 import FilterChips from '../components/FilterChips/FilterChips';
 import { Link, useSearchParams } from 'react-router';
@@ -7,7 +7,7 @@ import { fetchVenues } from '../api/client';
 
 function ListPage() {
   const fetcher = useCallback((signal) => fetchVenues(signal), []);
-  const { data, error, loading , retry} = useFetch(fetcher);
+  const { data, error, loading, retry } = useFetch(fetcher);
 
   const venues = data ?? [];
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,9 +20,7 @@ function ListPage() {
   const activeTier = searchParams.get('tier');
   const tiers = [
     ...new Set(
-      venues.map((place) =>
-        place.tier != null ? place.tier : 'Belum dicek',
-      ),
+      venues.map((place) => (place.tier != null ? place.tier : 'Belum dicek')),
     ),
   ];
 
@@ -64,48 +62,50 @@ function ListPage() {
           <div className="filter-container">
             <div className="header">
               <h1>Bandung Sport</h1>
-            <FilterChips
-              items={sports}
-              activeItem={activeSport}
-              onItemClick={setActiveSport}
-            />
-            <FilterChips
-              items={tiers}
-              activeItem={activeTier}
-              onItemClick={setActiveTier}
-            />
-            <select
-              className="area-select"
-              value={activeArea || ''}
-              onChange={(e) => setActiveArea(e.target.value || null)}
-            >
-              <option value="">Semua Area</option>
-              {areas.map((area) => (
-                <option key={area} value={area}>
-                  {area}
-                </option>
-              ))}
-            </select>
-                <p>
+              <FilterChips
+                items={sports}
+                activeItem={activeSport}
+                onItemClick={setActiveSport}
+              />
+              <FilterChips
+                items={tiers}
+                activeItem={activeTier}
+                onItemClick={setActiveTier}
+              />
+              <select
+                className="area-select"
+                value={activeArea || ''}
+                onChange={(e) => setActiveArea(e.target.value || null)}
+              >
+                <option value="">Semua Area</option>
+                {areas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
+              <p>
                 {loading && 'Memuat tempat...'}
-                {!loading && !error &&  `${venues.length} tempat ditemukan.`}
+                {!loading &&
+                  !error &&
+                  `${visibleVenues.length} tempat ditemukan.`}
               </p>
-                  {loading && (
+              {loading && (
                 <ul className="place-list" aria-hidden="true">
-                  {
-                    Array.from({length: 6}, (_, index) => (
-                      <li key={index} className="skeleton-card" />
-                    ))
-                  }
-                  </ul>  
-                )}
-                {!loading && error && (
-                  <div className='fetch-error'>
+                  {Array.from({ length: 6 }, (_, index) => (
+                    <li key={index} className="skeleton-card" />
+                  ))}
+                </ul>
+              )}
+              {!loading && error && (
+                <div className="fetch-error">
                   <p>Gagal Memuat data tempat.</p>
                   <p className="fetch-error-detail">{error.message}</p>
-                  <button className="reset-button" onClick={retry}>Coba lagi</button>
-                  </div>
-                )}
+                  <button className="reset-button" onClick={retry}>
+                    Coba lagi
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           {!loading && !error && visibleVenues.length === 0 && (
@@ -125,8 +125,8 @@ function ListPage() {
               )}
             </div>
           )}
-          
-          { !loading && !error && visibleVenues.length > 0 && (
+
+          {!loading && !error && visibleVenues.length > 0 && (
             <ul className="place-list">
               {visibleVenues.map((venue) => (
                 <li key={venue.id}>

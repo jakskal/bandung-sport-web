@@ -1,4 +1,4 @@
-import { useEffect , useCallback} from 'react';
+import { useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import useFetch from '../hooks/useFetch';
 import { fetchVenue } from '../api/client';
@@ -8,19 +8,23 @@ import '../styles/place-detail.css';
 function PlaceDetail() {
   const { venueId } = useParams();
   const navigate = useNavigate();
-  const fetcher = useCallback((signal) => fetchVenue(venueId, signal), [venueId]);
+  const fetcher = useCallback(
+    (signal) => fetchVenue(venueId, signal),
+    [venueId],
+  );
   const { data: venue, error, loading, retry } = useFetch(fetcher);
 
-
   useEffect(() => {
-      document.title = venue ?  `${venue.name} — Bandung Sport`: 'Bandung Sport — Direktori olahraga Bandung';
+    document.title = venue
+      ? `${venue.name} — Bandung Sport`
+      : 'Bandung Sport — Direktori olahraga Bandung';
   }, [venue]);
 
   if (loading) {
     return <div className="container">Memuat...</div>;
   }
 
-  if (error?.status === 404){
+  if (error?.status === 404) {
     return (
       <div className="container">
         <h2>Tempat tidak ditemukan</h2>
@@ -28,7 +32,7 @@ function PlaceDetail() {
           Kembali
         </Link>
       </div>
-    )
+    );
   }
   if (error) {
     return (
@@ -44,10 +48,12 @@ function PlaceDetail() {
 
   if (!venue) return null;
 
-    // temporary until v2 (s5)
-  const priceFormatted = venue.priceFrom ? formatPrice(venue.priceFrom) : formatPrice({priceVisibility: 'unknown'});
-  const tierClass=venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
-  
+  // temporary until v2 (s5)
+  const priceFormatted = venue.priceFrom
+    ? formatPrice(venue.priceFrom)
+    : formatPrice({ priceVisibility: 'unknown' });
+  const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
+
   const hasContacts = venue.whatsapp || venue.instagram || venue.website;
   return (
     <div className="container">
@@ -59,14 +65,10 @@ function PlaceDetail() {
         {venue.sports.join(', ')} — {venue.area}
       </p>
 
-      <p className="place-detail-price">
-        {priceFormatted}
-      </p>
+      <p className="place-detail-price">{priceFormatted}</p>
 
-      <p
-        className={`place-detail-tier ${tierClass}`}
-      >
-        Tier: {venue.tier ??'Belum dicek'}
+      <p className={`place-detail-tier ${tierClass}`}>
+        Tier: {venue.tier ?? 'Belum dicek'}
       </p>
       {venue.address && <p>{venue.address}</p>}
       {hasContacts && (
