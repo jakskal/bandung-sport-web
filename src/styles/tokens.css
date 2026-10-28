@@ -29,4 +29,15 @@
 
   /* Elevasi */
   --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* Brand */
+  --brand: #0f766e;
+  --brand-soft: #ccfbf1;
+
+  /* Tipografi */
+  --fs-price: 1.5rem;
+  --fs-meta: 0.875rem;
+
+  /* Radius */
+  --radius-card: 8px;
 }

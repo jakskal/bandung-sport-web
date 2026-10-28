@@ -1,4 +1,5 @@
 import formatPrice from '../../lib/formatPrice';
+import './PriceTag.css';
 function PriceTag({ priceMin, priceMax, priceUnit, priceVisibility }) {
   const priceFormatted =
     priceMin != null
@@ -11,7 +12,7 @@ function PriceTag({ priceMin, priceMax, priceUnit, priceVisibility }) {
       : formatPrice({ priceVisibility: 'unknown' });
   return (
     <div>
-      <p className="place-tag">{priceFormatted}</p>
+      <p className="price-tag">{priceFormatted}</p>
     </div>
   );
 }

@@ -1,17 +1,22 @@
 import './Place.css';
 import PriceTag from '../PriceTag/PriceTag';
+import TierBadge from '../TierBadge/TierBadge';
 function Place({ venue }) {
-  const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
   return (
-    <>
-      <h2>{venue.name}</h2>
-      <p>{venue.area}</p>
-      <p className="place-sports">{venue.sports.join(', ')}</p>
-      <PriceTag {...venue.priceFrom} />
-      <p className={tierClass}>
-        Tier: {venue.tier ? venue.tier : 'Belum dicek'}
+    <article className="place-card">
+      <header className="place-card-header">
+        <h2>{venue.name}</h2>
+        <TierBadge tier={venue.tier} />
+      </header>
+      {venue.priceFrom ? (
+        <PriceTag {...venue.priceFrom} />
+      ) : (
+        <span>Harga belum dicek</span>
+      )}
+      <p className="place-card-meta">
+        {venue.sports.join(', ')} · {venue.area}
       </p>
-    </>
+    </article>
   );
 }
 

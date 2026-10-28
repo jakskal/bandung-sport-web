@@ -11,12 +11,27 @@
   color: var(--place-tier-free);
 }
 
+.tier-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--surface-hover);
+  font-size: 0.75rem;
+  background: var(--brand-soft);
+}
+
+.place-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .place-card {
   display: block;
   border: 1px solid var(--border);
   padding: 10px;
-  border-radius: 5px;
-  background-color: var(--surface-card);
+  border-radius: var(--radius-card);
+  background: var(--surface-card);
   color: inherit;
   text-decoration: none;
   transition:
@@ -31,7 +46,28 @@
   background-color: var(--surface-hover);
 }
 
+.place-card h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
 .place-list li {
   list-style-type: none;
   margin-bottom: 10px;
+}
+
+.place-tag {
+  font-size: var(--fs-price);
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.place-card-meta {
+  font-size: var(--fs-meta);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.place-card .price-tag {
+  font-size: var(--fs-price);
 }
