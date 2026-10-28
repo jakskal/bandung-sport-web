@@ -33,7 +33,6 @@
   border-radius: var(--radius-card);
   background: var(--surface-card);
   color: inherit;
-  text-decoration: none;
   transition:
     box-shadow 0.3s ease-in-out,
     background-color 0.3s ease-in-out;
@@ -56,12 +55,6 @@
   margin-bottom: 10px;
 }
 
-.place-tag {
-  font-size: var(--fs-price);
-  font-weight: 700;
-  margin: 8px 0;
-}
-
 .place-card-meta {
   font-size: var(--fs-meta);
   color: var(--text-muted);
@@ -70,4 +63,10 @@
 
 .place-card .price-tag {
   font-size: var(--fs-price);
+}
+
+.place-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
 }

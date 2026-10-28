@@ -1,0 +1,49 @@
+.site-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 24px 0 16px;
+}
+
+.site-header-title {
+  font-size: var(--fs-hero);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  max-width: 20ch;
+}
+
+.site-header-sub {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 34ch;
+}
+
+.site-header-cta {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: var(--radius-card);
+  background: var(--brand);
+  color: var(--text-on-action);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.site-header-count {
+  font-size: var(--fs-meta);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .site-header {
+    padding: 48px 0 32px;
+  }
+
+  .site-header-title {
+    font-size: 2.5rem;
+  }
+}

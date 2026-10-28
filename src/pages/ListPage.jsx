@@ -4,6 +4,7 @@ import useFetch from '../hooks/useFetch';
 import FilterChips from '../components/FilterChips/FilterChips';
 import { Link, useSearchParams } from 'react-router';
 import { fetchVenues } from '../api/client';
+import Header from '../components/Header/Header';
 
 function ListPage() {
   const fetcher = useCallback((signal) => fetchVenues(signal), []);
@@ -56,90 +57,84 @@ function ListPage() {
   }, []);
 
   return (
-    <>
-      {
-        <div className="container">
-          <div className="filter-container">
-            <div className="header">
-              <h1>Bandung Sport</h1>
-              <FilterChips
-                items={sports}
-                activeItem={activeSport}
-                onItemClick={setActiveSport}
-              />
-              <FilterChips
-                items={tiers}
-                activeItem={activeTier}
-                onItemClick={setActiveTier}
-              />
-              <select
-                className="area-select"
-                value={activeArea || ''}
-                onChange={(e) => setActiveArea(e.target.value || null)}
-              >
-                <option value="">Semua Area</option>
-                {areas.map((area) => (
-                  <option key={area} value={area}>
-                    {area}
-                  </option>
-                ))}
-              </select>
-              <p>
-                {loading && 'Memuat tempat...'}
-                {!loading &&
-                  !error &&
-                  `${visibleVenues.length} tempat ditemukan.`}
-              </p>
-              {loading && (
-                <ul className="place-list" aria-hidden="true">
-                  {Array.from({ length: 6 }, (_, index) => (
-                    <li key={index} className="skeleton-card" />
-                  ))}
-                </ul>
-              )}
-              {!loading && error && (
-                <div className="fetch-error">
-                  <p>Gagal Memuat data tempat.</p>
-                  <p className="fetch-error-detail">{error.message}</p>
-                  <button className="reset-button" onClick={retry}>
-                    Coba lagi
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          {!loading && !error && visibleVenues.length === 0 && (
-            <div className="no-places">
-              <p>Tidak ada tempat yang ditemukan.</p>
-              {hasActiveFilters && (
-                <button
-                  className="reset-button"
-                  onClick={() => {
-                    setActiveSport(null);
-                    setActiveTier(null);
-                    setActiveArea(null);
-                  }}
-                >
-                  Reset filter
-                </button>
-              )}
-            </div>
-          )}
-
-          {!loading && !error && visibleVenues.length > 0 && (
-            <ul className="place-list">
-              {visibleVenues.map((venue) => (
-                <li key={venue.id}>
-                  <Link className="place-card" to={`/tempat/${venue.id}`}>
-                    <Place venue={venue} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+    <div className="container">
+      <Header venueCount={loading || error ? null : venues.length} />
+      {!loading && !error && (
+        <div className="filter-container">
+          <FilterChips
+            items={sports}
+            activeItem={activeSport}
+            onItemClick={setActiveSport}
+          />
+          <FilterChips
+            items={tiers}
+            activeItem={activeTier}
+            onItemClick={setActiveTier}
+          />
+          <select
+            className="area-select"
+            value={activeArea || ''}
+            onChange={(e) => setActiveArea(e.target.value || null)}
+          >
+            <option value="">Semua Area</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
+          <p>{visibleVenues.length} tempat ditemukan.</p>
         </div>
-      }
-    </>
+      )}
+
+      {loading && (
+        <ul className="place-list" aria-hidden="true">
+          {Array.from({ length: 6 }, (_, index) => (
+            <li key={index} className="skeleton-card" />
+          ))}
+        </ul>
+      )}
+      {!loading && error && (
+        <div className="fetch-error">
+          <p>Gagal memuat data tempat.</p>
+          <p className="fetch-error-detail">{error.message}</p>
+          <button className="reset-button" onClick={retry}>
+            Coba lagi
+          </button>
+        </div>
+      )}
+      <section id="tempat-list">
+        {!loading && !error && visibleVenues.length === 0 && (
+          <div className="no-places">
+            <p>Tidak ada tempat yang ditemukan.</p>
+            {hasActiveFilters && (
+              <button
+                className="reset-button"
+                onClick={() => {
+                  setActiveSport(null);
+                  setActiveTier(null);
+                  setActiveArea(null);
+                }}
+              >
+                Reset filter
+              </button>
+            )}
+          </div>
+        )}
+
+        {!loading && !error && visibleVenues.length > 0 && (
+          <ul className="place-list">
+            {visibleVenues.map((venue) => (
+              <li key={venue.id}>
+                <Link className="place-card-link" to={`/tempat/${venue.id}`}>
+                  <Place venue={venue} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
   );
 }
 
