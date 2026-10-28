@@ -65,12 +65,17 @@ function PlaceDetail() {
         <div className="place-detail-offerings">
           <h3>Penawaran</h3>
           {venue.offerings.map((offering) => (
-          <div key={offering.id}>
-            <OfferingRow  offering={offering} />
-            <a className="offering-wa" href={`https://wa.me/${venue.whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-              Kirim Pesan WA
-            </a>
-          </div>
+            <div key={offering.id}>
+              <OfferingRow offering={offering} />
+              <a
+                className="offering-wa"
+                href={`https://wa.me/${venue.whatsapp?.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Kirim Pesan WA
+              </a>
+            </div>
           ))}
         </div>
       ) : (

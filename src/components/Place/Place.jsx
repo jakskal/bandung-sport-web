@@ -7,8 +7,7 @@ function Place({ venue }) {
       <h2>{venue.name}</h2>
       <p>{venue.area}</p>
       <p className="place-sports">{venue.sports.join(', ')}</p>
-      <PriceTag {...venue.priceFrom}
-      />
+      <PriceTag {...venue.priceFrom} />
       <p className={tierClass}>
         Tier: {venue.tier ? venue.tier : 'Belum dicek'}
       </p>

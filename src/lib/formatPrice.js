@@ -22,7 +22,7 @@ export default function formatPrice({
   priceMin,
   priceMax,
   priceUnit,
-  priceVisibility
+  priceVisibility,
 }) {
   if (priceVisibility === 'on-request') {
     return 'Harga via WA';
