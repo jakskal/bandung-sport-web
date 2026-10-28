@@ -2,8 +2,8 @@ import { useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router';
 import useFetch from '../hooks/useFetch';
 import { fetchVenue } from '../api/client';
-import formatPrice from '../lib/formatPrice';
 import '../styles/place-detail.css';
+import OfferingRow from '../components/Offering/OfferingRow';
 
 function PlaceDetail() {
   const { venueId } = useParams();
@@ -38,7 +38,7 @@ function PlaceDetail() {
     return (
       <div className="container fetch-error">
         <p>Gagal memuat tempat.</p>
-        <p className="fetch-error-details">{error.message}</p>
+        <p className="fetch-error-detail">{error.message}</p>
         <button className="reset-button" onClick={retry}>
           Coba lagi
         </button>
@@ -48,10 +48,6 @@ function PlaceDetail() {
 
   if (!venue) return null;
 
-  // temporary until v2 (s5)
-  const priceFormatted = venue.priceFrom
-    ? formatPrice(venue.priceFrom)
-    : formatPrice({ priceVisibility: 'unknown' });
   const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
 
   const hasContacts = venue.whatsapp || venue.instagram || venue.website;
@@ -65,7 +61,21 @@ function PlaceDetail() {
         {venue.sports.join(', ')} — {venue.area}
       </p>
 
-      <p className="place-detail-price">{priceFormatted}</p>
+      {venue.offerings && venue.offerings.length > 0 ? (
+        <div className="place-detail-offerings">
+          <h3>Penawaran</h3>
+          {venue.offerings.map((offering) => (
+          <div key={offering.id}>
+            <OfferingRow  offering={offering} />
+            <a className="offering-wa" href={`https://wa.me/${venue.whatsapp?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+              Kirim Pesan WA
+            </a>
+          </div>
+          ))}
+        </div>
+      ) : (
+        <p className="no-offerings">Belum ada paket terverifikasi.</p>
+      )}
 
       <p className={`place-detail-tier ${tierClass}`}>
         Tier: {venue.tier ?? 'Belum dicek'}
