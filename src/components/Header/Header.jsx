@@ -2,7 +2,7 @@ import './Header.css';
 export default function Header({ venueCount }) {
   return (
     <header className="site-header">
-      <h1 className="site-header-title">Bandung. Ayo olahraga.</h1>
+      <h1 className="site-header-title">Bandung Sport — Direktori olahraga Bandung</h1>
       <p className="site-header-sub">
         Kita bantu cari tempat olahraga — kamu tinggal pilih
       </p>
