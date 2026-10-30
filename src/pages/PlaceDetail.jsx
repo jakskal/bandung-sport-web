@@ -82,9 +82,9 @@ function PlaceDetail() {
         <p className="no-offerings">Belum ada paket terverifikasi.</p>
       )}
 
-      <p className={`place-detail-tier ${tierClass}`}>
-        Tier: {venue.tier ?? 'Belum dicek'}
-      </p>
+      {venue.tier && (
+        <p className={`place-detail-tier ${tierClass}`}>Tier: {venue.tier}</p>
+      )}
       {venue.address && <p>{venue.address}</p>}
       {hasContacts && (
         <div className="place-detail-contacts">

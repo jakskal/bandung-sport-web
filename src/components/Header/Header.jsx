@@ -4,7 +4,7 @@ export default function Header({ venueCount }) {
     <header className="site-header">
       <h1 className="site-header-title">Bandung Sport — Direktori olahraga Bandung</h1>
       <p className="site-header-sub">
-        Kita bantu cari tempat olahraga — kamu tinggal pilih
+        Kita bantu cari tempat olahraga — pilih satu, lalu chat pengelolanya
       </p>
       <a className="site-header-cta" href="#tempat-list">
         Lihat semua tempat

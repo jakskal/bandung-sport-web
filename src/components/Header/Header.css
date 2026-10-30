@@ -19,7 +19,9 @@
   line-height: 1.4;
   color: var(--text-muted);
   margin: 0;
-  max-width: 34ch;
+  /* 34ch broke the 69-character subline into 3 lines on a 390px screen and
+     pushed the CTA down; 42ch still fits the container on 360px. */
+  max-width: 42ch;
 }
 
 .site-header-cta {
