@@ -2,17 +2,18 @@
  * Tier thresholds per sport (docs/plan-v2.md § 6).
  *
  * Thresholds compare the raw price in each sport's natural unit, never a
- * monthly-normalised cost. A sport without a rule has no tier (null) until
- * a rule is added via PR.
+ * monthly-normalised cost. Bands are keyed by `(sport, priceUnit)`: a unit
+ * without a band has no tier (null) instead of a guessed bucket — e.g. a
+ * per-session-pack price cannot be compared with a per-hour court rate while
+ * session length is unknown.
  *
- * Current scope: the table only. The bucket function lands with the data
- * layer (tier = bucket of the cheapest `public` + `umum` offering whose
- * priceUnit matches the rule's unit; price 0 or `free` → Gratis).
+ * Mirror only: since S9 the bucket is computed in the Go backend
+ * (`be/internal/catalog/tier.go`), which is the source of truth for
+ * `/api/venues`. Keep this table in sync when the Go rules change.
  */
 
 /**
- * @typedef {Object} TierRule
- * @property {import('./types.js').PriceUnit} unit Unit this sport's prices use.
+ * @typedef {Object} TierBand
  * @property {number} murah Price < this → Murah.
  * @property {number} sedang Price < this → Sedang; above → Mahal.
  */
@@ -20,12 +21,15 @@
 /**
  * Initial guesses — tune them in the weekly ritual once the real price
  * distribution is visible.
- * @type {Partial<Record<import('./types.js').Sport, TierRule>>}
+ * @type {Partial<Record<import('./types.js').Sport, Partial<Record<import('./types.js').PriceUnit, TierBand>>>>}
  */
 export const TIER_RULES = {
-  fitness: { unit: 'monthly', murah: 200000, sedang: 600000 },
-  swimming: { unit: 'per-visit', murah: 25000, sedang: 60000 },
-  futsal: { unit: 'per-hour', murah: 120000, sedang: 250000 },
-  padel: { unit: 'per-hour', murah: 250000, sedang: 450000 },
-  running: { unit: 'per-visit', murah: 10000, sedang: 30000 },
+  fitness: {
+    monthly: { murah: 200000, sedang: 600000 },
+    'per-visit': { murah: 35000, sedang: 75000 },
+  },
+  swimming: { 'per-visit': { murah: 25000, sedang: 60000 } },
+  futsal: { 'per-hour': { murah: 120000, sedang: 250000 } },
+  padel: { 'per-hour': { murah: 250000, sedang: 450000 } },
+  running: { 'per-visit': { murah: 10000, sedang: 30000 } },
 };
