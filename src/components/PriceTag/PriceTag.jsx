@@ -1,6 +1,12 @@
 import formatPrice from '../../lib/formatPrice';
 import './PriceTag.css';
-function PriceTag({ priceMin, priceMax, priceUnit, priceVisibility }) {
+function PriceTag({
+  priceMin,
+  priceMax,
+  priceUnit,
+  priceVisibility,
+  sessionsPerPack,
+}) {
   const priceFormatted =
     priceMin != null
       ? formatPrice({
@@ -8,6 +14,7 @@ function PriceTag({ priceMin, priceMax, priceUnit, priceVisibility }) {
           priceMax,
           priceUnit,
           priceVisibility: priceVisibility,
+          sessionsPerPack,
         })
       : formatPrice({ priceVisibility: 'unknown' });
   return (

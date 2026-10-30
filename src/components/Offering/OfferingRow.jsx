@@ -15,6 +15,7 @@ function OfferingRow({ offering }) {
         priceMax={offering.priceMax}
         priceUnit={offering.priceUnit}
         priceVisibility={offering.priceVisibility}
+        sessionsPerPack={offering.sessionsPerPack}
       />
       {lastVerified && (
         <p className="offering-verified">Harga dicek: {lastVerified}</p>

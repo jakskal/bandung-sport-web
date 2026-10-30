@@ -23,6 +23,7 @@ export default function formatPrice({
   priceMax,
   priceUnit,
   priceVisibility,
+  sessionsPerPack,
 }) {
   if (priceVisibility === 'on-request') {
     return 'Harga via WA';
@@ -49,7 +50,12 @@ export default function formatPrice({
     return 'Harga belum dicek';
   }
 
-  const unitString = priceUnit ? PRICE_UNIT_LABEL[priceUnit] || '' : '';
+  const unitString =
+    priceUnit === 'per-session-pack' && sessionsPerPack > 1
+      ? `/${sessionsPerPack} sesi`
+      : priceUnit
+        ? PRICE_UNIT_LABEL[priceUnit] || ''
+        : '';
 
   return `${priceString} ${unitString}`.trim();
 }
