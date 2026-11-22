@@ -29,20 +29,59 @@
 .place-card {
   display: block;
   border: 1px solid var(--border);
-  padding: 10px;
+  padding: 12px;
   border-radius: var(--radius-card);
   background: var(--surface-card);
   color: inherit;
   transition:
-    box-shadow 0.3s ease-in-out,
-    background-color 0.3s ease-in-out;
+    box-shadow 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
   cursor: pointer;
   height: 100%;
 }
 
-.place-card:hover {
+.place-card-link:hover .place-card {
+  border-color: var(--brand);
   box-shadow: var(--shadow-card);
-  background-color: var(--surface-hover);
+  transform: translateY(-2px);
+}
+
+.place-card-link:active .place-card {
+  transform: translateY(0);
+}
+
+.place-card-link:focus-visible .place-card {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.place-card-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Hint that the card opens a page: the whole card is a single <a>, so this
+   text is a label, not a nested link. */
+.place-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  color: var(--brand);
+}
+
+.place-card-arrow {
+  transition: transform 0.2s ease-in-out;
+}
+
+.place-card-link:hover .place-card-arrow {
+  transform: translateX(3px);
 }
 
 .place-card h2 {
@@ -59,6 +98,9 @@
   font-size: var(--fs-meta);
   color: var(--text-muted);
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .place-card .price-tag {

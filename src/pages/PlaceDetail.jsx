@@ -28,8 +28,8 @@ function PlaceDetail() {
     return (
       <div className="container">
         <h2>Tempat tidak ditemukan</h2>
-        <Link className="place-detail-back-button" to="/">
-          Kembali
+        <Link className="place-detail-back" to="/">
+          ← Kembali
         </Link>
       </div>
     );
@@ -49,76 +49,133 @@ function PlaceDetail() {
   if (!venue) return null;
 
   const tierClass = venue.tier ? `tier-${venue.tier.toLowerCase()}` : '';
-
+  const waLink = venue.whatsapp
+    ? `https://wa.me/${venue.whatsapp.replace(/\D/g, '')}`
+    : null;
   const hasContacts = venue.whatsapp || venue.instagram || venue.website;
+
+  // One primary action, built from whatever contact the venue actually has.
+  // Before this the per-offering WA button rendered even without a number,
+  // linking to wa.me/undefined.
+  const primaryContact = waLink
+    ? { href: waLink, label: 'Tanya via WhatsApp' }
+    : venue.instagram
+      ? { href: venue.instagram, label: 'Lihat Instagram' }
+      : venue.website
+        ? { href: venue.website, label: 'Buka website' }
+        : null;
+
+  const offerings = venue.offerings ?? [];
+
   return (
-    <div className="container">
-      <button className="place-detail-back-button" onClick={() => navigate(-1)}>
-        Kembali
+    <div className="container place-detail">
+      <button
+        className="place-detail-back"
+        onClick={() => navigate(-1)}
+        type="button"
+      >
+        ← Kembali
       </button>
-      <h1>{venue.name}</h1>
-      <p className="place-sports">
-        {venue.sports.join(', ')} — {venue.area}
-      </p>
 
-      {venue.offerings && venue.offerings.length > 0 ? (
-        <div className="place-detail-offerings">
-          <h3>Penawaran</h3>
-          {venue.offerings.map((offering) => (
-            <div key={offering.id}>
-              <OfferingRow offering={offering} />
-              <a
-                className="offering-wa"
-                href={`https://wa.me/${venue.whatsapp?.replace(/\D/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Kirim Pesan WA
-              </a>
-            </div>
-          ))}
+      <header className="place-detail-header">
+        <div className="place-detail-title-row">
+          <h1 className="place-detail-name">{venue.name}</h1>
+          {venue.tier && (
+            <span className={`tier-badge ${tierClass}`}>{venue.tier}</span>
+          )}
         </div>
-      ) : (
-        <p className="no-offerings">Belum ada paket terverifikasi.</p>
+        <p className="place-detail-meta">
+          {venue.sports.join(' · ')} — {venue.area}
+        </p>
+      </header>
+
+      {primaryContact && (
+        <a
+          className="place-detail-cta"
+          href={primaryContact.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {primaryContact.label}
+        </a>
       )}
 
-      {venue.tier && (
-        <p className={`place-detail-tier ${tierClass}`}>Tier: {venue.tier}</p>
+      <section className="place-detail-section">
+        <h2 className="place-detail-section-title">Penawaran</h2>
+        {offerings.length > 0 ? (
+          <ul className="offering-list">
+            {offerings.map((offering) => (
+              <li key={offering.id} className="offering-card">
+                <OfferingRow offering={offering} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="no-offerings">Belum ada paket terverifikasi.</p>
+        )}
+      </section>
+
+      {venue.address && (
+        <section className="place-detail-section">
+          <h2 className="place-detail-section-title">Alamat</h2>
+          <p className="place-detail-address">{venue.address}</p>
+        </section>
       )}
-      {venue.address && <p>{venue.address}</p>}
+
       {hasContacts && (
-        <div className="place-detail-contacts">
-          <h3>Kontak</h3>
-          {venue.whatsapp && (
-            <p>
-              <a
-                href={`https://wa.me/${venue.whatsapp.replace(/\D/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Whatsapp
-              </a>
-            </p>
-          )}
-          {venue.instagram && (
-            <p>
-              <a
-                href={venue.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Instagram
-              </a>
-            </p>
-          )}
-          {venue.website && (
-            <p>
-              <a href={venue.website} target="_blank" rel="noopener noreferrer">
-                Website
-              </a>
-            </p>
-          )}
-        </div>
+        <section className="place-detail-section">
+          <h2 className="place-detail-section-title">Kontak</h2>
+          <ul className="contact-list">
+            {venue.whatsapp && (
+              <li>
+                <a
+                  className="contact-row"
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="contact-label">WhatsApp</span>
+                  <span className="contact-value">{venue.whatsapp}</span>
+                  <span className="contact-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+            )}
+            {venue.instagram && (
+              <li>
+                <a
+                  className="contact-row"
+                  href={venue.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="contact-label">Instagram</span>
+                  <span className="contact-value">Buka profil</span>
+                  <span className="contact-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+            )}
+            {venue.website && (
+              <li>
+                <a
+                  className="contact-row"
+                  href={venue.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="contact-label">Website</span>
+                  <span className="contact-value">Buka situs</span>
+                  <span className="contact-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </li>
+            )}
+          </ul>
+        </section>
       )}
     </div>
   );

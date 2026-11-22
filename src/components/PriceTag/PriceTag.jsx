@@ -7,16 +7,15 @@ function PriceTag({
   priceVisibility,
   sessionsPerPack,
 }) {
-  const priceFormatted =
-    priceMin != null
-      ? formatPrice({
-          priceMin,
-          priceMax,
-          priceUnit,
-          priceVisibility: priceVisibility,
-          sessionsPerPack,
-        })
-      : formatPrice({ priceVisibility: 'unknown' });
+  // Visibility is passed through even when priceMin is null: an "on-request"
+  // offering has a known answer ("Harga via WA"), not an unchecked one.
+  const priceFormatted = formatPrice({
+    priceMin,
+    priceMax,
+    priceUnit,
+    priceVisibility,
+    sessionsPerPack,
+  });
   return (
     <div>
       <p className="price-tag">{priceFormatted}</p>

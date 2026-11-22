@@ -13,9 +13,18 @@ function Place({ venue }) {
       ) : (
         <span>Harga belum dicek</span>
       )}
-      <p className="place-card-meta">
-        {venue.sports.join(', ')} · {venue.area}
-      </p>
+      <footer className="place-card-footer">
+        <p className="place-card-meta">
+          {venue.sports.join(', ')} · {venue.area}
+        </p>
+        {/* The whole card is one link, so this is a label, not a second link. */}
+        <span className="place-card-cta">
+          {venue.hasWhatsApp ? 'Tanya via WA' : 'Lihat kontak'}
+          <span className="place-card-arrow" aria-hidden="true">
+            →
+          </span>
+        </span>
+      </footer>
     </article>
   );
 }
