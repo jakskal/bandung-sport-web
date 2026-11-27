@@ -6,5 +6,7 @@ export default function TierBadge({ tier }) {
     return null;
   }
 
-  return <span className={`tier-badge tier-${tier.toLowerCase()}`}>{tier}</span>;
+  return (
+    <span className={`tier-badge tier-${tier.toLowerCase()}`}>{tier}</span>
+  );
 }

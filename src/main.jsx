@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
-import {Analytics} from '@vercel/analytics/react'
+import { Analytics } from '@vercel/analytics/react';
 import './styles/tokens.css';
 import './styles/index.css';
 import App from './App.jsx';
