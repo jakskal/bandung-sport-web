@@ -5,6 +5,7 @@ import FilterChips from '../components/FilterChips/FilterChips';
 import { Link, useSearchParams } from 'react-router';
 import { fetchVenues } from '../api/client';
 import Header from '../components/Header/Header';
+import VenueMap from '../components/VenueMap/VenueMap';
 
 function ListPage() {
   const fetcher = useCallback((signal) => fetchVenues(signal), []);
@@ -104,6 +105,7 @@ function ListPage() {
         </div>
       )}
       <section id="tempat-list">
+        <VenueMap venues={visibleVenues} />
         {!loading && !error && visibleVenues.length === 0 && (
           <div className="no-places">
             <p>Tidak ada tempat yang ditemukan.</p>
